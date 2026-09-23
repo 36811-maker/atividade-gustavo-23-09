@@ -1,0 +1,1187 @@
+/* ==========================================================================
+   BATALHA POKÉMON — DESIGN SYSTEM & ESTILOS COMPLETOS
+   Projeto Escolar com HTML, CSS e JavaScript puros
+   ========================================================================== */
+
+/* 1. RESET E VARIÁVEIS GLOBAIS */
+:root {
+  --font-main: 'Outfit', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+
+  /* Cores Base */
+  --bg-dark: #090d16;
+  --bg-card: rgba(18, 24, 38, 0.85);
+  --bg-card-hover: rgba(28, 36, 56, 0.95);
+  --border-color: rgba(255, 255, 255, 0.12);
+  --border-hover: rgba(255, 255, 255, 0.35);
+
+  --text-primary: #ffffff;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Paleta dos Tipos de Pokémon */
+  --type-electric: #f59e0b;
+  --type-electric-glow: rgba(245, 158, 11, 0.4);
+
+  --type-fire: #ef4444;
+  --type-fire-glow: rgba(239, 68, 68, 0.4);
+
+  --type-water: #0284c7;
+  --type-water-glow: rgba(2, 132, 199, 0.4);
+
+  --type-grass: #10b981;
+  --type-grass-glow: rgba(16, 185, 129, 0.4);
+
+  --type-psychic: #a855f7;
+  --type-psychic-glow: rgba(168, 85, 247, 0.4);
+
+  --type-ghost: #6366f1;
+  --type-ghost-glow: rgba(99, 102, 241, 0.4);
+
+  --type-fighting: #f43f5e;
+  --type-fighting-glow: rgba(244, 63, 94, 0.4);
+
+  /* HP Colors */
+  --hp-green: #22c55e;
+  --hp-yellow: #eab308;
+  --hp-red: #ef4444;
+
+  /* Efeitos e Sombras */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  --shadow-glow: 0 0 25px rgba(56, 189, 248, 0.25);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+  line-height: 1.5;
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(30, 58, 138, 0.3) 0%, transparent 60%),
+    radial-gradient(circle at 10% 90%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 90% 80%, rgba(14, 165, 233, 0.15) 0%, transparent 50%);
+}
+
+/* Brilhos de Fundo */
+.bg-glow {
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  filter: blur(120px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+}
+.bg-glow-1 {
+  top: -100px;
+  left: -100px;
+  background: #3b82f6;
+}
+.bg-glow-2 {
+  bottom: -100px;
+  right: -100px;
+  background: #ec4899;
+}
+
+/* Container Global */
+.app-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Utilitário Global para Esconder Elementos */
+.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Transições de Telas */
+.screen {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  width: 100%;
+}
+.screen.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+
+/* ==========================================================================
+   2. TELA 1 — CABEÇALHO E SELEÇÃO DE POKÉMON
+   ========================================================================== */
+.main-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, rgba(234, 179, 8, 0.2), rgba(239, 68, 68, 0.2));
+  border: 1px solid rgba(234, 179, 8, 0.5);
+  color: #fbbf24;
+  font-family: var(--font-main);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.2);
+}
+
+.main-title {
+  font-family: var(--font-main);
+  font-size: clamp(2.2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: 1px;
+  background: linear-gradient(180deg, #ffffff 20%, #93c5fd 60%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+  margin-bottom: 10px;
+}
+
+.main-subtitle {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.selection-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.selection-heading h2 {
+  font-family: var(--font-main);
+  font-size: 1.4rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.selection-heading h2::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 24px;
+  background: #38bdf8;
+  border-radius: 4px;
+}
+
+.selection-counter {
+  font-size: 0.85rem;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+/* ==========================================================================
+   3. GRID DE CARDS & EFEITO 3D
+   ========================================================================== */
+.pokemon-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  perspective: 1200px; /* Base da perspectiva 3D */
+}
+
+/* Container do Card para Perspectiva */
+.pokemon-card-wrapper {
+  perspective: 1000px;
+}
+
+.pokemon-card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Brilho Especular do Efeito 3D */
+.card-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+  background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.15) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+  z-index: 5;
+}
+
+.pokemon-card:hover .card-shine {
+  opacity: 1;
+}
+
+/* Topo do Card: Badge de Tipo */
+.card-header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 6px;
+  transform: translateZ(20px);
+}
+
+.type-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Variações de Cores dos Tipos */
+.type-eletrico {
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid var(--type-electric);
+  color: #fbbf24;
+}
+.type-fogo {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid var(--type-fire);
+  color: #f87171;
+}
+.type-agua {
+  background: rgba(2, 132, 199, 0.15);
+  border: 1px solid var(--type-water);
+  color: #38bdf8;
+}
+.type-planta {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--type-grass);
+  color: #34d399;
+}
+.type-psiquico {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid var(--type-psychic);
+  color: #c084fc;
+}
+.type-fantasma {
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid var(--type-ghost);
+  color: #818cf8;
+}
+.type-lutador {
+  background: rgba(244, 63, 94, 0.15);
+  border: 1px solid var(--type-fighting);
+  color: #fb7185;
+}
+
+/* Imagem e Sombra Flutuante do Card */
+.card-img-wrapper {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 10px 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateZ(35px); /* Salta para fora no 3D */
+}
+
+.card-img-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 90px;
+  height: 18px;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.6) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: 1;
+}
+
+.pokemon-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 10px 12px rgba(0, 0, 0, 0.4));
+  transition: transform 0.3s ease;
+}
+
+.pokemon-card:hover .pokemon-card-img {
+  transform: scale(1.08) translateY(-4px);
+}
+
+/* Informações do Pokémon no Card */
+.card-name {
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  transform: translateZ(25px);
+}
+
+.card-desc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  margin-bottom: 12px;
+  min-height: 52px;
+  transform: translateZ(15px);
+}
+
+.card-feature-box {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
+  font-size: 0.78rem;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transform: translateZ(15px);
+}
+
+.feature-label {
+  color: var(--text-muted);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.feature-val {
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+/* Botão Escolher */
+.btn-choose {
+  width: 100%;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  transform: translateZ(25px);
+}
+
+.btn-choose:hover {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  transform: translateZ(30px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.6);
+}
+
+/* ==========================================================================
+   4. TELA 2 — ARENA DE BATALHA
+   ========================================================================== */
+.battle-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Badge de Combo */
+.combo-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25), rgba(245, 158, 11, 0.25));
+  border: 2px solid #ef4444;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-main);
+  font-weight: 800;
+  color: #fef08a;
+  animation: pulseCombo 1.5s infinite alternate ease-in-out;
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
+}
+
+.combo-sub {
+  background: #ef4444;
+  color: white;
+  font-size: 0.72rem;
+  padding: 2px 6px;
+  border-radius: var(--radius-full);
+}
+
+@keyframes pulseCombo {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(239, 68, 68, 0.4); }
+  100% { transform: scale(1.06); box-shadow: 0 0 22px rgba(245, 158, 11, 0.8); }
+}
+
+/* Badge de Evento Surpresa */
+.surprise-badge {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.25), rgba(168, 85, 247, 0.25));
+  border: 1px solid #38bdf8;
+  color: #e0f2fe;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  animation: bounceIn 0.4s ease;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Alerta de Momento Crítico */
+.critical-alert {
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.35), rgba(239, 68, 68, 0.2));
+  border: 1px solid #ef4444;
+  color: #fecaca;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  animation: dangerPulse 1s infinite alternate ease-in-out;
+}
+
+@keyframes dangerPulse {
+  0% { opacity: 0.8; box-shadow: 0 0 10px rgba(239, 68, 68, 0.2); }
+  100% { opacity: 1; box-shadow: 0 0 25px rgba(239, 68, 68, 0.6); }
+}
+
+/* Arena de Combate e Disposição dos Lutadores */
+.battle-arena {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 20px;
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 30px 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(16px);
+  margin-bottom: 18px;
+}
+
+.battle-arena::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: radial-gradient(circle at center, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.combatant-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
+}
+
+.player-side {
+  align-items: flex-start;
+}
+
+.enemy-side {
+  align-items: flex-end;
+}
+
+/* Cards de Status (HP e Informações) */
+.status-card {
+  background: rgba(11, 15, 25, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  transition: var(--transition-smooth);
+}
+
+.status-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.trainer-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #38bdf8;
+  letter-spacing: 1px;
+}
+
+.trainer-tag.enemy-tag {
+  color: #f87171;
+}
+
+.combatant-name {
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.combatant-info-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.feature-tag {
+  font-size: 0.72rem;
+  background: rgba(255, 255, 255, 0.07);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+}
+
+/* Barra de Vida (HP) */
+.hp-container {
+  width: 100%;
+}
+
+.hp-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.hp-title {
+  color: #cbd5e1;
+}
+
+.hp-value {
+  font-family: var(--font-main);
+  color: #ffffff;
+}
+
+.hp-bar-bg {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+  padding: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.hp-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: var(--hp-green);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.hp-bar-fill.medium {
+  background: var(--hp-yellow);
+  box-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+}
+
+.hp-bar-fill.danger {
+  background: var(--hp-red);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+  animation: hpPulse 0.8s infinite alternate ease-in-out;
+}
+
+@keyframes hpPulse {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.4); }
+}
+
+/* Palco e Sprites */
+.pokemon-stage {
+  position: relative;
+  width: 220px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.platform {
+  position: absolute;
+  bottom: 0px;
+  width: 190px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.3) 0%, rgba(30, 58, 138, 0.2) 60%, transparent 80%);
+  border: 2px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 0 25px rgba(56, 189, 248, 0.3);
+  z-index: 1;
+}
+
+.enemy-platform {
+  background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0.3) 0%, rgba(136, 19, 55, 0.2) 60%, transparent 80%);
+  border-color: rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.3);
+}
+
+.battle-sprite {
+  width: 170px;
+  height: 170px;
+  object-fit: contain;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.5));
+  transition: transform 0.2s ease;
+}
+
+/* Divisor Central VS */
+.vs-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  z-index: 3;
+}
+
+.vs-badge {
+  font-family: var(--font-main);
+  font-size: 1.8rem;
+  font-weight: 900;
+  font-style: italic;
+  color: #fbbf24;
+  background: rgba(15, 23, 42, 0.9);
+  border: 2px solid #fbbf24;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+}
+
+.turn-indicator {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   5. ANIMAÇÕES DE ATAQUE, IMPACTO E DANO
+   ========================================================================== */
+/* Investida do Jogador */
+@keyframes playerAttackDash {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(80px) scale(1.1); }
+  100% { transform: translateX(0); }
+}
+
+/* Investida do Adversário */
+@keyframes enemyAttackDash {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(-80px) scale(1.1); }
+  100% { transform: translateX(0); }
+}
+
+/* Impacto e Tremor ao Receber Dano */
+@keyframes hitShake {
+  0%, 100% { transform: translate(0, 0); filter: brightness(1); }
+  20% { transform: translate(-10px, 4px); filter: brightness(2) drop-shadow(0 0 10px #ef4444); }
+  40% { transform: translate(10px, -4px); }
+  60% { transform: translate(-8px, 0); }
+  80% { transform: translate(6px, 2px); }
+}
+
+.anim-player-attack {
+  animation: playerAttackDash 0.35s ease-in-out;
+}
+
+.anim-enemy-attack {
+  animation: enemyAttackDash 0.35s ease-in-out;
+}
+
+.anim-hit {
+  animation: hitShake 0.45s ease-in-out;
+}
+
+/* Popups Flutuantes de Dano / Cura */
+.floating-damage-container {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  height: 80px;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.damage-popup {
+  font-family: var(--font-main);
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #ef4444;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  animation: floatUpFade 1.2s forwards cubic-bezier(0.18, 0.89, 0.32, 1.28);
+  position: absolute;
+}
+
+.damage-popup.crit {
+  color: #fbbf24;
+  font-size: 1.8rem;
+  text-shadow: 0 0 15px rgba(251, 191, 36, 0.8);
+}
+
+.damage-popup.heal {
+  color: #22c55e;
+  font-size: 1.5rem;
+  text-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+}
+
+@keyframes floatUpFade {
+  0% { transform: translateY(20px) scale(0.5); opacity: 0; }
+  25% { transform: translateY(-10px) scale(1.2); opacity: 1; }
+  100% { transform: translateY(-45px) scale(1); opacity: 0; }
+}
+
+/* ==========================================================================
+   6. REGISTRO DE BATALHA (BATTLE LOG)
+   ========================================================================== */
+.battle-log-container {
+  background: rgba(11, 15, 25, 0.85);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.log-header {
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 4px;
+}
+
+.log-title {
+  font-family: var(--font-main);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+}
+
+.battle-log {
+  max-height: 90px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.battle-log::-webkit-scrollbar {
+  width: 5px;
+}
+.battle-log::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.log-entry {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #e2e8f0;
+  animation: fadeIn 0.3s ease;
+}
+
+.log-system {
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.log-player {
+  color: #7dd3fc;
+}
+
+.log-enemy {
+  color: #fca5a5;
+}
+
+.log-special {
+  color: #fef08a;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   7. CONTROLES E BOTÕES DE ATAQUE
+   ========================================================================== */
+.battle-controls {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.attack-btn {
+  background: rgba(18, 24, 38, 0.9);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  color: white;
+  text-align: left;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.attack-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.attack-btn:not(:disabled):hover {
+  transform: translateY(-3px);
+}
+
+.attack-btn:not(:disabled):active {
+  transform: translateY(1px);
+}
+
+.attack-icon {
+  font-size: 1.8rem;
+  background: rgba(255, 255, 255, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.attack-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.attack-name {
+  font-family: var(--font-main);
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.attack-desc {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* Variações dos Botões */
+.btn-quick:not(:disabled):hover {
+  border-color: #f59e0b;
+  box-shadow: 0 6px 20px rgba(245, 158, 11, 0.3);
+}
+
+.btn-strong:not(:disabled):hover {
+  border-color: #ef4444;
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+.btn-special:not(:disabled):hover {
+  border-color: #a855f7;
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+}
+
+/* Destaque no Ataque Especial durante Momento Crítico */
+.btn-special.critical-highlight {
+  border-color: #fbbf24 !important;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.3), rgba(239, 68, 68, 0.3)) !important;
+  box-shadow: 0 0 25px rgba(251, 191, 36, 0.8) !important;
+  animation: specialReadyPulse 1.2s infinite alternate ease-in-out;
+}
+
+@keyframes specialReadyPulse {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+  100% { transform: scale(1.04); box-shadow: 0 0 30px rgba(239, 68, 68, 0.9); }
+}
+
+/* ==========================================================================
+   8. MODAL DE FIM DE BATALHA (VITÓRIA / DERROTA)
+   ========================================================================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(5, 8, 16, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+  animation: fadeIn 0.4s ease;
+}
+
+.modal-overlay.hidden {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+
+.modal-card {
+  background: rgba(18, 24, 38, 0.95);
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 36px 30px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2);
+  animation: scaleUp 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes scaleUp {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-icon {
+  font-size: 3.5rem;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-family: var(--font-main);
+  font-size: 2.2rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.modal-card.victory .modal-title {
+  color: #4ade80;
+  text-shadow: 0 0 20px rgba(74, 222, 128, 0.6);
+}
+
+.modal-card.defeat .modal-title {
+  color: #f87171;
+  text-shadow: 0 0 20px rgba(248, 113, 113, 0.6);
+}
+
+.modal-description {
+  color: var(--text-secondary);
+  font-size: 1.05rem;
+  margin-bottom: 24px;
+}
+
+.modal-stats {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.stat-pill {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.stat-num {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: white;
+}
+
+.btn-restart {
+  width: 100%;
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-main);
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.4);
+}
+
+.btn-restart:hover {
+  background: linear-gradient(135deg, #34d399, #10b981);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(16, 185, 129, 0.6);
+}
+
+/* ==========================================================================
+   9. RESPONSIVIDADE (MOBILE & TABLET)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .battle-arena {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .player-side, .enemy-side {
+    align-items: center;
+    width: 100%;
+  }
+
+  .status-card {
+    max-width: 100%;
+  }
+
+  .vs-column {
+    order: 0;
+    margin: -10px 0;
+  }
+
+  .vs-badge {
+    width: 48px;
+    height: 48px;
+    font-size: 1.3rem;
+  }
+
+  .battle-controls {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .app-container {
+    padding: 16px 12px;
+  }
+
+  .main-title {
+    font-size: 2rem;
+  }
+
+  .pokemon-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pokemon-stage {
+    width: 180px;
+    height: 150px;
+  }
+
+  .battle-sprite {
+    width: 130px;
+    height: 130px;
+  }
+
+  .platform {
+    width: 150px;
+    height: 38px;
+  }
+}

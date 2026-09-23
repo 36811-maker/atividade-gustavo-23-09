@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Batalha Pokémon</title>
+  <meta name="description" content="Jogo de Batalha Pokémon em turnos feito em HTML, CSS e JavaScript. Escolha seu Pokémon e desafie adversários em uma arena moderna!">
+  <!-- Google Fonts para visual moderno e gamer -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Efeito de iluminação de fundo / partículas sutis -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <div class="app-container">
+
+    <!-- ==================== TELA 1: SELEÇÃO DE POKÉMON ==================== -->
+    <section id="selection-screen" class="screen active">
+      <header class="main-header">
+        <div class="logo-badge">⚡ ARENA DE COMBATE ⚡</div>
+        <h1 class="main-title">BATALHA POKÉMON</h1>
+        <p class="main-subtitle">
+          Bem-vindo ao campeonato! Escolha o seu Pokémon favorito, analise suas características únicas e enfrente um desafiante surpresa em um combate eletrizante!
+        </p>
+      </header>
+
+      <div class="selection-heading">
+        <h2>Escolha seu Pokémon</h2>
+        <span class="selection-counter">8 Lutadores Disponíveis</span>
+      </div>
+
+      <!-- Grid com os 8 cards dos Pokémon -->
+      <div id="pokemon-grid" class="pokemon-grid">
+        <!-- Cards gerados dinamicamente pelo JavaScript com efeito 3D -->
+      </div>
+    </section>
+
+    <!-- ==================== TELA 2: ARENA DE BATALHA ==================== -->
+    <section id="battle-screen" class="screen hidden" style="display: none;">
+      <!-- Barra Superior da Batalha -->
+      <div class="battle-top-bar">
+        <button id="btn-back-select" class="btn-secondary" title="Voltar para a seleção">
+          ← Escolher Outro
+        </button>
+
+        <!-- Indicador visual do Sistema de Combo -->
+        <div id="combo-badge" class="combo-badge hidden">
+          <span class="combo-icon">🔥</span>
+          <span id="combo-text">COMBO x3!</span>
+          <span class="combo-sub">+25% Dano</span>
+        </div>
+
+        <!-- Indicador de Evento Surpresa Ativo -->
+        <div id="surprise-badge" class="surprise-badge hidden">
+          <span id="surprise-text">⚡ Evento Ativo</span>
+        </div>
+      </div>
+
+      <!-- Alerta visual de Momento Crítico -->
+      <div id="critical-alert" class="critical-alert hidden">
+        <span class="alert-icon">⚠️</span>
+        <span class="alert-msg">Cuidado! Seu Pokémon está com pouca vida!</span>
+      </div>
+
+      <!-- Campo de Batalha (Lutador vs Lutador) -->
+      <div class="battle-arena">
+        
+        <!-- LADO DO JOGADOR -->
+        <div class="combatant-wrapper player-side">
+          <!-- Card de Status do Jogador -->
+          <div class="status-card" id="player-status-card">
+            <div class="status-header">
+              <span class="trainer-tag">SEU POKÉMON</span>
+              <span id="player-type-badge" class="type-badge">Tipo</span>
+            </div>
+            <h3 id="player-name" class="combatant-name">Pikachu</h3>
+            <div class="combatant-info-row">
+              <span id="player-feature" class="feature-tag">Ataques rápidos</span>
+            </div>
+
+            <!-- Barra de Vida com transição suave -->
+            <div class="hp-container">
+              <div class="hp-label-row">
+                <span class="hp-title">HP</span>
+                <span id="player-hp-text" class="hp-value">100 / 100 HP</span>
+              </div>
+              <div class="hp-bar-bg">
+                <div id="player-hp-bar" class="hp-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Palco e Sprite do Jogador -->
+          <div class="pokemon-stage">
+            <div class="floating-damage-container" id="player-damage-container"></div>
+            <div class="platform player-platform"></div>
+            <img id="player-sprite" class="battle-sprite" src="" alt="Seu Pokémon">
+          </div>
+        </div>
+
+        <!-- DIVISOR CENTRAL / VS -->
+        <div class="vs-column">
+          <div class="vs-badge">VS</div>
+          <div class="turn-indicator" id="turn-indicator">Sua Vez de Atacar!</div>
+        </div>
+
+        <!-- LADO DO ADVERSÁRIO -->
+        <div class="combatant-wrapper enemy-side">
+          <!-- Card de Status do Adversário -->
+          <div class="status-card" id="enemy-status-card">
+            <div class="status-header">
+              <span class="trainer-tag enemy-tag">ADVERSÁRIO</span>
+              <span id="enemy-type-badge" class="type-badge">Tipo</span>
+            </div>
+            <h3 id="enemy-name" class="combatant-name">Charizard</h3>
+            <div class="combatant-info-row">
+              <span id="enemy-feature" class="feature-tag">Ataques fortes</span>
+            </div>
+
+            <!-- Barra de Vida do Adversário -->
+            <div class="hp-container">
+              <div class="hp-label-row">
+                <span class="hp-title">HP</span>
+                <span id="enemy-hp-text" class="hp-value">100 / 100 HP</span>
+              </div>
+              <div class="hp-bar-bg">
+                <div id="enemy-hp-bar" class="hp-bar-fill" style="width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Palco e Sprite do Adversário -->
+          <div class="pokemon-stage">
+            <div class="floating-damage-container" id="enemy-damage-container"></div>
+            <div class="platform enemy-platform"></div>
+            <img id="enemy-sprite" class="battle-sprite" src="" alt="Pokémon Adversário">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Histórico de Mensagens da Batalha (Battle Log) -->
+      <div class="battle-log-container">
+        <div class="log-header">
+          <span class="log-title">📜 Registro do Combate</span>
+        </div>
+        <div id="battle-log" class="battle-log">
+          <p class="log-entry log-system">A batalha está pronta para começar! Escolha o seu primeiro ataque.</p>
+        </div>
+      </div>
+
+      <!-- Painel de Controles e Botões de Ataque -->
+      <div class="battle-controls">
+        <button id="btn-quick-attack" class="attack-btn btn-quick" data-type="quick">
+          <div class="attack-icon">⚡</div>
+          <div class="attack-details">
+            <span class="attack-name">Ataque Rápido</span>
+            <span class="attack-desc">Ágil e preciso • Dano Moderado</span>
+          </div>
+        </button>
+
+        <button id="btn-strong-attack" class="attack-btn btn-strong" data-type="strong">
+          <div class="attack-icon">💥</div>
+          <div class="attack-details">
+            <span class="attack-name">Ataque Forte</span>
+            <span class="attack-desc">Golpe pesado • Alto Dano</span>
+          </div>
+        </button>
+
+        <button id="btn-special-attack" class="attack-btn btn-special" data-type="special">
+          <div class="attack-icon">🔥</div>
+          <div class="attack-details">
+            <span class="attack-name">Ataque Especial</span>
+            <span class="attack-desc">Poder máximo • Efeito Devastador</span>
+          </div>
+        </button>
+      </div>
+
+    </section>
+
+    <!-- ==================== MODAL DE FIM DE BATALHA ==================== -->
+    <div id="result-modal" class="modal-overlay hidden" style="display: none;">
+      <div class="modal-card">
+        <div id="modal-icon" class="modal-icon">🏆</div>
+        <h2 id="modal-title" class="modal-title"></h2>
+        <p id="modal-description" class="modal-description"></p>
+        
+        <div class="modal-stats" id="modal-stats">
+          <!-- Estatísticas preenchidas ao final da batalha -->
+          <div class="stat-pill">
+            <span class="stat-label">Duração</span>
+            <span id="stat-turns" class="stat-num">0 turnos</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-label">Combos Feitos</span>
+            <span id="stat-combos" class="stat-num">0</span>
+          </div>
+        </div>
+
+        <button id="btn-play-again" class="btn-restart">
+          🔄 Jogar Novamente
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Script principal contendo toda a lógica do jogo -->
+  <script src="script.js"></script>
+</body>
+</html>
